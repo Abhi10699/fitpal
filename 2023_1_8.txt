@@ -1,0 +1,21 @@
+Workout Name: Back
+	Exercise: bench press
+	Sets: 3
+	Repetitions: 10
+	Rest: 1
+
+	Exercise: Ex-2
+	Sets: 3
+	Repetitions: 10
+	Rest: 1
+
+	Exercise: Ex-3
+	Sets: 3
+	Repetitions: 10
+	Rest: 1
+
+	Exercise: Ex-4
+	Sets: 3
+	Repetitions: 10
+	Rest: 1
+

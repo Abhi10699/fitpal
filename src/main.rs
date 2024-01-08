@@ -8,10 +8,22 @@ struct Date {
     year: i16
 }
 
+impl Date {
+    fn get_date_string(&self) -> String{
+        format!(
+            "{year}_{month}_{day}", 
+            year=self.year, 
+            month=self.month_of_year, 
+            day=self.day_of_month
+        )
+    }
+}
+
 #[derive(Debug)]
 struct Workout {
     name: String,
     exercise: Vec<Exercise>,
+    date: Date
 }
 
 impl Workout {
@@ -19,6 +31,12 @@ impl Workout {
         Workout {
             name: name,
             exercise: Vec::new(),
+            date: Date {
+                day_of_month: 8,
+                day_of_week: 1,
+                month_of_year: 1,
+                year: 2023
+            }
         }
     }
 
@@ -27,10 +45,13 @@ impl Workout {
     }
 
     fn save_workout(&self){
-        let file_name = format!("{workoutName}.txt",workoutName=self.name);
+        let file_name = format!(
+            "{workout_date}.txt",
+            workout_date=self.date.get_date_string()
+        );
+
         let file = File::create(file_name).unwrap();
         let mut file = LineWriter::new(file);
-
 
         let _ = file.write(format!("Workout Name: {}\n", self.name).as_bytes());
     
@@ -42,7 +63,7 @@ impl Workout {
                 num_reps = exercise.repetition,
                 rest = exercise.rest_between_sets
             );
-           file.write(sets_str.as_bytes());
+           let _ = file.write(sets_str.as_bytes());
         }
         
     }
@@ -88,7 +109,7 @@ fn main() {
     println!("Fitness Pal");
     let mut workout = Workout::new("Back".to_string());
 
-    for i in 1..5 {
+    for _ in 1..5 {
         let exercice = Exercise::new();
         workout.add_exercise(exercice)
     }
