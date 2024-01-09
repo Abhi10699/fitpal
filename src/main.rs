@@ -1,5 +1,7 @@
-use std::io::{self, LineWriter, Write};
+use std::io::{self, LineWriter, Write, Read};
 use std::fs::File;
+
+
 #[derive(Debug)]
 struct Date {
     day_of_week: i8,
@@ -65,7 +67,15 @@ impl Workout {
             );
            let _ = file.write(sets_str.as_bytes());
         }
-        
+    }
+
+    fn load_workout(file_path: &str){
+        let mut file = File::open(file_path).unwrap();
+        let mut file_string = String::new();
+        let bytes_read = file
+            .read_to_string(&mut file_string)
+            .expect("Error Reading the file");
+        println!("{:#?}", file_string);
     }
 
 }
@@ -107,15 +117,18 @@ impl Exercise {
 
 fn main() {
     println!("Fitness Pal");
-    let mut workout = Workout::new("Back".to_string());
+    //let mut workout = Workout::new("Back".to_string());
 
-    for _ in 1..5 {
-        let exercice = Exercise::new();
-        workout.add_exercise(exercice)
-    }
+    //for _ in 1..5 {
+    //    let exercice = Exercise::new();
+    //    workout.add_exercise(exercice)
+    //}
 
-    println!("{:#?}", workout);
+    //println!("{:#?}", workout);
 
-    workout.save_workout();
+    //workout.save_workout();
+
+    let _ = Workout::load_workout("./2023_1_8.txt");
+
 
 }
