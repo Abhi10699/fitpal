@@ -83,7 +83,7 @@ impl Workout {
         let workout_name: Vec<&str> = string_arr.next().unwrap().split(":").collect();
         let mut workout = Workout::new(workout_name[1].trim().to_string());
         for chunk in string_arr {
-            let mut exercises: Vec<&str> = chunk.split("\n").collect();            
+            let exercises: Vec<&str> = chunk.split("\n").collect();            
 
             let exercise_name: Vec<&str> = exercises[0].split(":").collect();
             let exercise_sets: Vec<&str> = exercises[1].split(":").collect();
@@ -94,7 +94,7 @@ impl Workout {
                name: String::from(exercise_name[1].trim()),
                sets: exercise_sets[1].trim().parse().expect("Error Parsing Sets"),
                repetition: exercise_repetition[1].trim().parse().expect("Error Parsing Reps"),
-               rest_between_sets:  exercise_sets[1].trim().parse().expect("Error parsing rest")
+               rest_between_sets:  exercise_rest[1].trim().parse().expect("Error parsing rest")
             };
             workout.add_exercise(exercise);
         }
@@ -154,6 +154,5 @@ fn main() {
     //workout.save_workout();
 
     let _ = Workout::load_workout("./2023_1_8.txt");
-
 
 }
