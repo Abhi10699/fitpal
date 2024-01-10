@@ -69,13 +69,38 @@ impl Workout {
         }
     }
 
-    fn load_workout(file_path: &str){
+    fn load_workout(file_path: &str) -> Self{
+
         let mut file = File::open(file_path).unwrap();
         let mut file_string = String::new();
-        let bytes_read = file
+        let _ = file
             .read_to_string(&mut file_string)
             .expect("Error Reading the file");
-        println!("{:#?}", file_string);
+
+        let file_string = file_string.trim();
+        let mut string_arr = file_string.split("\n\n").into_iter();
+
+        let workout_name: Vec<&str> = string_arr.next().unwrap().split(":").collect();
+        let mut workout = Workout::new(workout_name[1].trim().to_string());
+        for chunk in string_arr {
+            let mut exercises: Vec<&str> = chunk.split("\n").collect();            
+
+            let exercise_name: Vec<&str> = exercises[0].split(":").collect();
+            let exercise_sets: Vec<&str> = exercises[1].split(":").collect();
+            let exercise_repetition: Vec<&str> = exercises[2].split(":").collect();
+            let exercise_rest: Vec<&str> = exercises[3].split(":").collect();
+
+            let exercise = Exercise {
+               name: String::from(exercise_name[1].trim()),
+               sets: exercise_sets[1].trim().parse().expect("Error Parsing Sets"),
+               repetition: exercise_repetition[1].trim().parse().expect("Error Parsing Reps"),
+               rest_between_sets:  exercise_sets[1].trim().parse().expect("Error parsing rest")
+            };
+            workout.add_exercise(exercise);
+        }
+
+        println!("{:#?}", workout);
+        return workout;
     }
 
 }
