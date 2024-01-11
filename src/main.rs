@@ -1,13 +1,13 @@
 use std::io::{self, LineWriter, Write, Read};
 use std::fs::File;
-
+use chrono::prelude::*;
 
 #[derive(Debug)]
 struct Date {
-    day_of_week: i8,
-    day_of_month: i8,
-    month_of_year: i8,
-    year: i16
+    day_of_week: u32,
+    day_of_month: u32,
+    month_of_year: u32,
+    year: i32
 }
 
 impl Date {
@@ -18,6 +18,16 @@ impl Date {
             month=self.month_of_year, 
             day=self.day_of_month
         )
+    }
+
+    fn now() -> Self {
+        let date_now : DateTime<Local> = Local::now();
+        Date {
+            day_of_month:  date_now.day(),
+            day_of_week: date_now.weekday().number_from_sunday(),
+            month_of_year: date_now.month(),
+            year: date_now.year()
+        }
     }
 }
 
@@ -33,12 +43,7 @@ impl Workout {
         Workout {
             name: name,
             exercise: Vec::new(),
-            date: Date {
-                day_of_month: 8,
-                day_of_week: 1,
-                month_of_year: 1,
-                year: 2023
-            }
+            date: Date::now()
         }
     }
 
@@ -103,6 +108,7 @@ impl Workout {
         return workout;
     }
 
+
 }
 
 #[derive(Debug)]
@@ -153,6 +159,7 @@ fn main() {
 
     //workout.save_workout();
 
-    let _ = Workout::load_workout("./2023_1_8.txt");
+    // TODO: this should be dynamic
+    let _ = Workout::load_workout("./2023_1_8.workout");
 
 }
