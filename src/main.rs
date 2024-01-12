@@ -1,5 +1,5 @@
 use std::io::{self, LineWriter, Write, Read};
-use std::fs::File;
+use std::fs::{File, self};
 use chrono::prelude::*;
 
 #[derive(Debug)]
@@ -146,6 +146,19 @@ impl Exercise {
     }
 }
 
+
+fn read_workouts(workout_dir: &str) -> Vec<Workout> {
+    let dir_contents = fs::read_dir(workout_dir).expect("Invalid directory").into_iter();
+    let mut workouts:Vec<Workout> = Vec::new();
+    for item in dir_contents  {
+        let path = item.unwrap();
+        let workout = Workout::load_workout(path.path().to_str().unwrap());
+        workouts.push(workout);
+    }
+
+    return workouts;
+}
+
 fn main() {
     println!("Fitness Pal");
     //let mut workout = Workout::new("Back".to_string());
@@ -160,6 +173,8 @@ fn main() {
     //workout.save_workout();
 
     // TODO: this should be dynamic
-    let _ = Workout::load_workout("./2023_1_8.workout");
+    // let _ = Workout::load_workout("./2023_1_8.workout");
 
+    let workouts = read_workouts("./workouts");
+    println!("{:#?}", workouts);
 }
