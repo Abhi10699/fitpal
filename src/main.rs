@@ -159,22 +159,28 @@ fn read_workouts(workout_dir: &str) -> Vec<Workout> {
     return workouts;
 }
 
+fn app_menu(){
+    // TODO: Implement application menu selection
+}
+
+
 fn main() {
     println!("Fitness Pal");
     //let mut workout = Workout::new("Back".to_string());
 
+    
+    //println!("{:#?}", workout);
+
+    //workout.save_workout();
+
+    let workouts = read_workouts("./workouts");
+    
     //for _ in 1..5 {
     //    let exercice = Exercise::new();
     //    workout.add_exercise(exercice)
     //}
 
-    //println!("{:#?}", workout);
-
-    //workout.save_workout();
-
-    // TODO: this should be dynamic
-    // let _ = Workout::load_workout("./2023_1_8.workout");
-
-    let workouts = read_workouts("./workouts");
+    
     println!("{:#?}", workouts);
+
 }
